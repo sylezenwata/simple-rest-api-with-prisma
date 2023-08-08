@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// enum Role {
+//   USER
+//   ADMIN
+//   SUPER
+
+//   @@map("roles")
+// }
+
+model User {
+  id          String    @id @default(cuid())
+  first_name  String
+  last_name   String
+  email       String    @unique
+  password    String?
+  role        String    @default("USER") // enum type would have been better, but cannot be used in sqlite client
+  blacklisted Boolean   @default(false)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now()) @updatedAt
+  Profile     Profile?
+  Session     Session[]
+  Post        Post[]
+
+  @@map("users")
+}
+
+// enum Gender {
+//   MALE
+//   FEMALE
+//   OTHER
+
+//   @@map("genders")
+// }
+
+// enum Theme {
+//   LIGHT
+//   DARK
+
+//   @@map("themes")
+// }
+
+model Profile {
+  id          String   @id @default(cuid())
+  phone       String
+  address     String
+  gender      String
+  theme       String   @default("LIGHT")
+  avatar      String?
+  user_id     String   @unique
+  user        User     @relation(fields: [user_id], references: [id])
+  blacklisted Boolean  @default(false)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+
+  @@map("Profiles")
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  token       String   @unique
+  expires_at  DateTime
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
+  blacklisted Boolean  @default(false)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+
+  @@map("sessions")
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  title       String   @unique
+  content     String
+  author_id   String
+  author      User     @relation(fields: [author_id], references: [id])
+  blacklisted Boolean  @default(false)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+
+  @@map("posts")
+}
