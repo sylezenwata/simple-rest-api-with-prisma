@@ -105,9 +105,7 @@ routes.put(
 				},
 			});
 
-			res.json({
-				message: "Logout was successful",
-			});
+			res.send("Logout was successful");
 		} catch (error) {
 			next(error);
 		}
@@ -161,9 +159,7 @@ routes.put(
 				},
 			});
 
-			res.json({
-				message: "Update was successful",
-			});
+			res.send("Update was successful");
 		} catch (error: any) {
 			if (error.code === "P2002") {
 				error.status = 400;
@@ -222,9 +218,7 @@ routes.put(
 				},
 			});
 
-			res.json({
-				message: "Password change was successful",
-			});
+			res.send("Password change was successful");
 		} catch (error) {
 			next(error);
 		}
@@ -363,11 +357,9 @@ routes.put(
 				},
 			});
 
-			res.json({
-				message: `User has been ${
-					user.blacklisted ? "whitlisted" : "blacklisted"
-				}`,
-			});
+			res.send(
+				`User has been ${user.blacklisted ? "whitlisted" : "blacklisted"}`
+			);
 		} catch (error) {
 			next(error);
 		}
@@ -460,11 +452,9 @@ routes.put(
 				},
 			});
 
-			res.json({
-				message: `Post has been ${
-					post.blacklisted ? "whitlisted" : "blacklisted"
-				}`,
-			});
+			res.send(
+				`Post has been ${post.blacklisted ? "whitlisted" : "blacklisted"}`
+			);
 		} catch (error) {
 			next(error);
 		}

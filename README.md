@@ -37,12 +37,4 @@ npm run dev
 
 ## Note
 
-All response are return as json
-
-```javascript
-// error code is returned in the header
-{
-  "error": boolean,
-  "message": string
-}
-```
+Error response code is returned in the header
